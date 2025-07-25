@@ -10,13 +10,14 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10 # Timeout para evitar jobs infinitos
 
     steps:
     - name: ?? Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: ?? Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
@@ -24,8 +25,15 @@ jobs:
     - name: ?? Install dependencies
       run: npm ci
     
+    - name: ? Verify installation
+      run: |
+        echo "?? Verificando instalação..."
+        npm list --depth=0
+        echo "?? Verificando Cucumber..."
+        npx cucumber-js --version || echo "?? Cucumber não encontrado"
+    
     - name: ?? Setup Chrome
-      uses: browser-actions/setup-chrome@latest
+      uses: browser-actions/setup-chrome@v1
       with:
         chrome-version: stable
     
@@ -45,14 +53,14 @@ jobs:
       if: always()
     
     - name: ?? Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: cucumber-reports
         path: reports/
         
     - name: ?? Upload screenshots (if any)
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: screenshots
