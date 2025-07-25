@@ -1,0 +1,45 @@
+{
+  "name": "banco-cucumber",
+  "version": "1.0.0",
+  "description": "Testes automatizados para aplicação bancária usando Cucumber e Selenium WebDriver",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:cucumber": "cucumber-js",
+    "test:dry-run": "cucumber-js --dry-run",
+    "test:html": "cucumber-js --format html:reports/cucumber_report.html",
+    "test:json": "cucumber-js --format json:reports/cucumber_report.json",
+    "test:progress": "cucumber-js --format progress-bar",
+    "clean": "rimraf reports/*"
+  },
+  "keywords": [
+    "cucumber",
+    "selenium",
+    "automation",
+    "testing",
+    "bdd",
+    "e2e",
+    "banco",
+    "webdriver"
+  ],
+  "author": "Gdagostin <gdagostin@exemplo.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gdagostin/banco-cucumber.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Gdagostin/banco-cucumber/issues"
+  },
+  "homepage": "https://github.com/Gdagostin/banco-cucumber#readme",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^12.1.0",
+    "selenium-webdriver": "^4.34.0"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2"
+  }
+}
