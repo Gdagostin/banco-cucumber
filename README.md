@@ -3,6 +3,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-16+-green.svg)](https://nodejs.org/)
 [![Cucumber](https://img.shields.io/badge/Cucumber-12.1.0-brightgreen.svg)](https://cucumber.io/)
 [![Selenium](https://img.shields.io/badge/Selenium-4.34.0-blue.svg)](https://selenium.dev/)
+[![Tests](https://github.com/Gdagostin/banco-cucumber/actions/workflows/tests.yml/badge.svg)](https://github.com/Gdagostin/banco-cucumber/actions/workflows/tests.yml)
 
 Projeto de testes automatizados end-to-end para aplicação bancária utilizando **Cucumber** (BDD) e **Selenium WebDriver**.
 

@@ -1,54 +1,57 @@
-name: Cucumber Tests
+name: ?? Cucumber Tests
 
 on:
   push:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch: # Permite execução manual
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: ?? Checkout code
+      uses: actions/checkout@v3
     
-    - name: Setup Node.js
+    - name: ?? Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18'
         cache: 'npm'
     
-    - name: Install dependencies
+    - name: ?? Install dependencies
       run: npm ci
     
-    - name: Setup Chrome
+    - name: ?? Setup Chrome
       uses: browser-actions/setup-chrome@latest
       with:
         chrome-version: stable
     
-    - name: Start application (if needed)
+    - name: ?? Start application (if needed)
       run: |
-        # Substitua por comando para iniciar sua aplicação
+        # Para usar com aplicação real, descomente e configure:
         # npm start &
         # sleep 30
-        echo "Configure aqui o comando para iniciar sua aplicação"
+        echo "??  Configure o comando para iniciar sua aplicação aqui"
+        echo "?? Atualmente configurado para aplicação em localhost:4000"
       
-    - name: Run Cucumber tests
+    - name: ?? Run Cucumber tests
       run: npm run test
       
-    - name: Generate test report
+    - name: ?? Generate test report
       run: npm run test:html
       if: always()
     
-    - name: Upload test results
+    - name: ?? Upload test results
       uses: actions/upload-artifact@v3
       if: always()
       with:
         name: cucumber-reports
         path: reports/
         
-    - name: Upload screenshots (if any)
+    - name: ?? Upload screenshots (if any)
       uses: actions/upload-artifact@v3
       if: failure()
       with:
