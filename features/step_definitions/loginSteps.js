@@ -59,8 +59,10 @@ When('realizo login com as seguintes credenciais', async function (dataTable) {
 });
 
 Then('devo ser redirecionado para a pagina inicial', async function () {
-
+    // Aguarda a seção da aplicação aparecer após o login
     await driver.wait(until.elementLocated(By.xpath("//*[@id='app-section']/div[1]//h4")), 10000);
+    
+    // Verifica se o título da página inicial está correto
     const titulo = await driver.findElement(By.xpath("//*[@id='app-section']/div[1]//h4")).getText();
-    assert.strictEqual('Realizar Transferência', titulo);
+    assert.strictEqual(titulo, 'Realizar Transferência');
 });
