@@ -1,7 +1,7 @@
 {
   "name": "banco-cucumber",
   "version": "1.0.0",
-  "description": "Testes automatizados para aplica��o banc�ria usando Cucumber e Selenium WebDriver",
+  "description": "Testes automatizados para aplicaçãoo bancária usando Cucumber e Selenium WebDriver",
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
