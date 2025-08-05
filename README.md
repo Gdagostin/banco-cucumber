@@ -53,6 +53,47 @@ banco-cucumber/
 
 ## 🧪 Executando os Testes
 
+## 🛠️ Configuração da Aplicação
+
+### 📋 Dependência: banco-web
+
+Este projeto depende da aplicação **banco-web** do Julio de Lima:
+- **Repositório**: https://github.com/juliodelimas/banco-web
+- **Função**: Aplicação web para testes de automação  
+- **Porta**: 4000 (configurável)
+- **API Mock**: Porta 3000
+
+### 🔧 Setup Completo
+
+1. **Clone o banco-web** (diretório paralelo):
+   ```bash
+   cd ..
+   git clone https://github.com/juliodelimas/banco-web.git
+   cd banco-web
+   npm install
+   ```
+
+2. **Configure variáveis de ambiente** (banco-web/.env):
+   ```env
+   API_BASE_URL=http://localhost:3000
+   PORT=4000
+   ```
+
+3. **Inicie os serviços** (banco-web):
+   ```bash
+   # Terminal 1: Mock Server
+   npm run mock-server
+   
+   # Terminal 2: Aplicação Web  
+   npm run server
+   ```
+
+4. **Execute os testes** (banco-cucumber):
+   ```bash
+   cd ../banco-cucumber
+   npm test
+   ```
+
 ### 🎯 Comandos Principais:
 
 ```bash

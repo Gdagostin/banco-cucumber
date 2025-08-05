@@ -37,6 +37,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Mockoon CLI globally
+        run: npm install -g @mockoon/cli
+
       - name: Verify Node.js and npm versions
         run: |
           echo "Node.js version: $(node --version)"
@@ -78,11 +81,31 @@ jobs:
 
       - name: Start application (configure as needed)
         run: |
-          # Para usar com aplicação real, descomente e configure:
-          # npm start &
-          # sleep 30
-          echo "Configure o comando para iniciar sua aplicação aqui"
-          echo "Atualmente configurado para aplicação em localhost:4000"
+          # Clone e configure o banco-web
+          git clone https://github.com/juliodelimas/banco-web.git ../banco-web
+          cd ../banco-web
+          
+          # Instala dependências
+          npm install
+          
+          # Configura variáveis de ambiente
+          echo "API_BASE_URL=http://localhost:3000" > .env
+          echo "PORT=4000" >> .env
+          
+          # Inicia o mock server em background
+          npm run mock-server &
+          sleep 5
+          
+          # Inicia a aplicação web em background
+          npm run server &
+          sleep 10
+          
+          # Volta para o diretório de testes
+          cd ../banco-cucumber
+          
+          # Verifica se os serviços estão funcionando
+          curl -f http://localhost:3000/health || echo "Mock server iniciado"
+          curl -f http://localhost:4000 || echo "Aplicação web iniciada"
 
       - name: Run Cucumber tests
         run: npm run test
