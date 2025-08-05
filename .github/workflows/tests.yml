@@ -8,22 +8,96 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch: # Permite execução manual
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15 # Timeout para evitar jobs infinitos
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
+      - name: Verify Node.js and npm versions
+        run: |
+          echo "Node.js version: $(node --version)"
+          echo "npm version: $(npm --version)"
+          echo "Installed packages:"
+          npm list --depth=0
+
+      - name: Setup Chrome Browser
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Setup ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+
+      - name: Verify Chrome and ChromeDriver
+        run: |
+          echo "Chrome version:"
+          google-chrome --version
+          echo "ChromeDriver version:"
+          chromedriver --version
+
+      - name: Verify Cucumber installation
+        run: |
+          echo "Cucumber version:"
+          npx cucumber-js --version
+          echo "Selenium WebDriver check:"
+          node -e "const { Builder } = require('selenium-webdriver'); console.log('Selenium WebDriver loaded successfully');"
+
+      - name: Setup virtual display
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
+      - name: Create reports directory
+        run: mkdir -p reports screenshots
+
+      - name: Start application (configure as needed)
+        run: |
+          # Para usar com aplicação real, descomente e configure:
+          # npm start &
+          # sleep 30
+          echo "Configure o comando para iniciar sua aplicação aqui"
+          echo "Atualmente configurado para aplicação em localhost:4000"
+
+      - name: Run Cucumber tests
         run: npm run test
+        env:
+          CI: true
+          HEADLESS: true
+          DISPLAY: :99
+
+      - name: Generate HTML test report
+        run: npm run test:html
+        if: always()
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-reports
+          path: reports/
+          retention-days: 30
+
+      - name: Upload screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: screenshots/
+          retention-days: 7

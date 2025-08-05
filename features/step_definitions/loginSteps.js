@@ -1,11 +1,29 @@
 const { Given, When, Then, Before, After } = require('@cucumber/cucumber');
 const { Builder, By, until } = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
 const assert = require('assert');
 
 let driver;
 
 Before(async function () {
-    driver = await new Builder().forBrowser('chrome').build();
+    const options = new chrome.Options();
+    
+    // Configurações para CI/CD (modo headless)
+    if (process.env.CI || process.env.HEADLESS) {
+        options.addArguments('--headless');
+        options.addArguments('--no-sandbox');
+        options.addArguments('--disable-dev-shm-usage');
+        options.addArguments('--disable-gpu');
+        options.addArguments('--window-size=1920,1080');
+        options.addArguments('--disable-extensions');
+        options.addArguments('--disable-web-security');
+        options.addArguments('--allow-running-insecure-content');
+    }
+    
+    driver = await new Builder()
+        .forBrowser('chrome')
+        .setChromeOptions(options)
+        .build();
 });
 
 After(async function () {

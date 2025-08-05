@@ -1,7 +1,7 @@
 {
   "name": "banco-cucumber",
   "version": "1.0.0",
-  "description": "Testes automatizados para aplicação bancária usando Cucumber e Selenium WebDriver",
+  "description": "Testes automatizados para aplicaï¿½ï¿½o bancï¿½ria usando Cucumber e Selenium WebDriver",
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
@@ -10,6 +10,8 @@
     "test:html": "cucumber-js --format html:reports/cucumber_report.html",
     "test:json": "cucumber-js --format json:reports/cucumber_report.json",
     "test:progress": "cucumber-js --format progress-bar",
+    "test:headless": "set HEADLESS=true && cucumber-js",
+    "test:ci": "set CI=true && cucumber-js",
     "clean": "rimraf reports/*"
   },
   "keywords": [
